@@ -23,6 +23,11 @@ echo ""
 echo "Are you using NFS shares? [y/n]:"
 read NFSStatus
 
+while [${NFSStatus} != "y"] && [${NFSStatus} != "n"] do
+    echo "Are you using NFS shares? [y/n]:"
+    read NFSStatus
+done
+
 if (${NFSStatus} == "y")
     echo "Installing NFS Utils"
     dnf install nfs-utils -y
