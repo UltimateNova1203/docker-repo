@@ -12,6 +12,51 @@ echo ""
 echo "Enabling Docker"
 systemctl enable --now docker
 
+# NFS Setup
+echo ""
+echo "Are you using NFS shares? [y/n]:"
+read NFSStatus
+
+if (${NFSStatus} == "y")
+    echo "Enter NFS share for Movies:"
+    read NFSMovies
+    echo "Enter Movies mount point:"
+    read PlexMovies
+    echo "Enter NFS share for Music:"
+    read NFSMusic
+    echo "Enter Music mount point:"
+    read PlexMusic
+    echo "Enter NFS share for TV Shows:"
+    read NFSTVShows
+    echo "Enter TV Shows mount point:"
+    read PlexTVShows
+    echo "Enter NFS share for Videos:"
+    read NFSVideos
+    echo "Enter Videos mount point:"
+    read PlexVideos
+    echo "${NFSMovies}	${PlexMovies}  nfs defaults 0 0" >> /etc/fstab
+    echo "${NFSMusic}   ${PlexMusic}   nfs defaults 0 0" >> /etc/fstab
+    echo "${NFSTVShows} ${PlexTVShows} nfs defaults 0 0" >> /etc/fstab
+    echo "${NFSVideos}  ${PlexVideos}  nfs defaults 0 0" >> /etc/fstab
+fi
+
+if (${NFSStatus} == "n")
+    echo "Enter the path for Movies:"
+    read PlexMovies
+    echo "Enter the path for Music:"
+    read PlexMusic
+    echo "Enter the path for TV Shows:"
+    read PlexTVShows
+    echo "Enter the path for Videos:"
+    read PlexVideos
+fi
+
+# Get Plex info
+echo ""
+echo "Navigate to https://www.plex.tv/claim/"
+echo "Enter the Plex Claim Ticket"
+read PlexClaim
+
 # Services compose
 echo ""
 echo "Start docker compose"

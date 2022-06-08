@@ -9,15 +9,15 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
-      - PLEX_CLAIM=${PLEXCLAIM}
+      - PLEX_CLAIM=${PlexClaim}
       - HOSTNAME="media"
     volumes:
       - /media/storage/plex/config:/config
       - /media/storage/plex/transcode:/transcode
-      - /media/movies:/media/movies
-      - /media/music:/media/music
-      - /media/tvshows:/media/tvshows
-      - /media/videos:/media/videos
+      - ${PlexMovies}:/media/movies
+      - ${PlexMusic}:/media/music
+      - ${PlexTVShows}:/media/tvshows
+      - ${PlexVideos}:/media/videos
     restart: unless-stopped
 
   portainer:
