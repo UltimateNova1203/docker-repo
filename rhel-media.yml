@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
-      - PLEX_CLAIM=claim-dG2TxuYqDfKq2Gm8_g-H
+      - PLEX_CLAIM=
       - HOSTNAME="media"
     volumes:
       - /media/storage/plex/config:/config
