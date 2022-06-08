@@ -13,7 +13,7 @@ echo "Enabling Docker"
 systemctl enable --now docker
 
 # Services compose
-docker compose -f rhel-media.yml up -d
+docker compose -f docker-media.yml up -d
 
 # Firewall rules
 echo "Enabling firewall rules"
