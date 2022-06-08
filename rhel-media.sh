@@ -13,9 +13,13 @@ echo "Enabling Docker"
 systemctl enable --now docker
 
 # Services compose
+echo ""
+echo "Start docker compose"
+wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-media.yml"
 docker compose -f docker-media.yml up -d
 
 # Firewall rules
+echo ""
 echo "Enabling firewall rules"
 echo "Plex GUI"
 firewall-cmd --permanent --add-port=32400/tcp
