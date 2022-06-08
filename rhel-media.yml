@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - PLEX_CLAIM=claim-dG2TxuYqDfKq2Gm8_g-H
+      - HOSTNAME="media"
+    volumes:
+      - /media/storage/plex/config:/config
+      - /media/storage/plex/transcode:/transcode
+      - /media/movies:/media/movies
+      - /media/music:/media/music
+      - /media/tvshows:/media/tvshows
+      - /media/videos:/media/videos
+    restart: unless-stopped
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    ports:
+      - 8000:8000
+      - 9443:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: always
+
+volumes:
+  portainer_data:
