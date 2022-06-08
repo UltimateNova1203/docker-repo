@@ -24,6 +24,9 @@ echo "Are you using NFS shares? [y/n]:"
 read NFSStatus
 
 if (${NFSStatus} == "y")
+    echo "Installing NFS Utils"
+    dnf install nfs-utils -y
+    echo ""
     echo "Enter NFS share for Movies:"
     read NFSMovies
     echo "Enter Movies mount point:"
