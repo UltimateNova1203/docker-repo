@@ -72,6 +72,8 @@ echo "Enter the Plex Claim Ticket:"
 read PlexClaim
 echo "Enter the Hostname for Plex:"
 read PlexHostname
+echo "Enter the path for Plex files:"
+read PlexLocation
 
 # Services compose
 echo ""

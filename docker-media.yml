@@ -12,8 +12,8 @@ services:
       - PLEX_CLAIM=${PlexClaim}
       - HOSTNAME=${PlexHostname}
     volumes:
-      - /media/storage/plex/config:/config
-      - /media/storage/plex/transcode:/transcode
+      - ${PlexLocation}/config:/config
+      - ${PlexLocation}/transcode:/transcode
       - ${PlexMovies}:/media/movies
       - ${PlexMusic}:/media/music
       - ${PlexTVShows}:/media/tvshows
