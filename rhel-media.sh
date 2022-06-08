@@ -54,8 +54,10 @@ fi
 # Get Plex info
 echo ""
 echo "Navigate to https://www.plex.tv/claim/"
-echo "Enter the Plex Claim Ticket"
+echo "Enter the Plex Claim Ticket:"
 read PlexClaim
+echo "Enter the Hostname for Plex:"
+read PlexHostname
 
 # Services compose
 echo ""

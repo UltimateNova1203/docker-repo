@@ -10,7 +10,7 @@ services:
       - PGID=1000
       - TZ=America/New_York
       - PLEX_CLAIM=${PlexClaim}
-      - HOSTNAME="media"
+      - HOSTNAME=${PlexHostname}
     volumes:
       - /media/storage/plex/config:/config
       - /media/storage/plex/transcode:/transcode
