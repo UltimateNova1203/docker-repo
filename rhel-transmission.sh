@@ -21,12 +21,13 @@ systemctl enable --now docker
 # Samba setup
 
 # Avahi setup
-echo ""
 echo "Installing Avahi"
 dnf install avahi-daemon -y
+echo ""
+echo "Configuring Avahi"
 wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/avahi/samba.service" -o /etc/avahi/services/samba.service
-sed -i 's/foo/Storage/g' /etc/avahi/services/samba.service
-sed -i 's/#host-name=foo/host-name=storage/g' /etc/avahi/avahi-daemon.conf
+sed -i 's/foo/Transmission/g' /etc/avahi/services/samba.service
+sed -i 's/#host-name=foo/host-name=transmission/g' /etc/avahi/avahi-daemon.conf
 sed -i 's/#domain-name=local/domain-name=local/g' /etc/avahi/avahi-daemon.conf
 sed -i 's/use-ipv6=yes/use-ipv6=no/g' /etc/avahi/avahi-daemon.conf
 
@@ -35,12 +36,26 @@ echo ""
 echo "Configuring NSS"
 sed -i 's/hosts:      files dns myhostname/hosts:      files mdns4_minimal dns myhostname/g' /etc/nsswitch.conf
 
+# Transmission setup
+echo ""
+echo "Enter the path for Transmission files:"
+read TransmissionFolder
+
+# Services compose
+echo ""
+echo "Start docker compose"
+wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-transmission.yml"
+docker compose -f docker-transmission.yml up -d
+
 # Firewall rules
+echo ""
 echo "Enabling firewall rules"
-echo "Samba"
-firewall-cmd --permanent --add-port=445/tcp
-echo "Avahi"
-firewall-cmd --permanent --add-port=5353/udp
+echo "Transmission TCP"
+firewall-cmd --permanent --add-port=51413/tcp
+echo "Transmission UDP"
+firewall-cmd --permanent --add-port=51413/udp
+echo "Transmission Combustion"
+firewall-cmd --permanent --add-port=9091/tcp
 echo "Portainer"
 firewall-cmd --permanent --add-port=8000/tcp
 echo "Portainer GUI"

@@ -1,23 +1,23 @@
 version: '3.7'
 
 services:
-  plex:
-    container_name: plex
-    image: plexinc/pms-docker:latest
-    network_mode: host
+  transmission:
+    container_name: transmission
+    image: lscr.io/linuxserver/transmission:latest
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
-      - PLEX_CLAIM=${PlexClaim}
-      - HOSTNAME=${PlexHostname}
+      - TRANSMISSION_WEB_HOME=/combustion-release/
+      - WHITELIST=10.10.0.*
+      - PEERPORT=51413
     volumes:
-      - ${PlexLocation}/config:/config
-      - ${PlexLocation}/transcode:/transcode
-      - ${PlexMovies}:/media/movies
-      - ${PlexMusic}:/media/music
-      - ${PlexTVShows}:/media/tvshows
-      - ${PlexVideos}:/media/videos
+      - ${TransmissionFolder}/config:/config
+      - ${TransmissionFolder}/downloads:/downloads
+      - ${TransmissionFolder}/watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
     restart: unless-stopped
 
   portainer:

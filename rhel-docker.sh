@@ -1,4 +1,11 @@
 #!/bin/bash
+# Check if root
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+# Docker setup
 echo "Adding Docker Repo"
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 echo ""
