@@ -76,7 +76,7 @@ if [ "$NFSStatus" == "n" ]; then
     echo "PLEXTVSHOWS:$PlexTVShows" >> ./.env
     echo "Enter the path for Videos: [e.g. '/media/videos']"
     read PlexVideos
-    echo "PLEXVIDEOS:$PlexVideos" >> ./.
+    echo "PLEXVIDEOS:$PlexVideos" >> ./.env
 fi
 
 # Get Plex info
