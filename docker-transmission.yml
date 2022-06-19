@@ -7,14 +7,14 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New_York
+      - TZ=${TIMEZONE}
       - TRANSMISSION_WEB_HOME=/combustion-release/
-      - WHITELIST=10.10.0.*
+      - WHITELIST=${ALLOWLIST}
       - PEERPORT=51413
     volumes:
-      - ${TransmissionFolder}/config:/config
-      - ${TransmissionFolder}/downloads:/downloads
-      - ${TransmissionFolder}/watch:/watch
+      - ${FOLDER}/config:/config
+      - ${FOLDER}/downloads:/downloads
+      - ${FOLDER}/watch:/watch
     ports:
       - 9091:9091
       - 51413:51413

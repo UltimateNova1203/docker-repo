@@ -23,10 +23,10 @@ else
 fi
 
 if [ -f ./.env ]; then
-    touch ./.env
+    touch /root/.env
 else
-    rm ./.env
-    touch ./.env
+    rm /root/.env
+    touch /root/.env
 fi
 
 # NFS Setup
@@ -42,22 +42,22 @@ if [ "$NFSStatus" == "y" ]; then
     read NFSMovies
     echo "Enter Movies mount point: [e.g. '/media/movies']"
     read PlexMovies
-    echo "PLEXMOVIES:$PlexMovies" >> ./.env
+    echo "PLEXMOVIES:$PlexMovies" >> /root/.env
     echo "Enter NFS share for Music: [e.g. 'nfshost:/nfs/share']"
     read NFSMusic
     echo "Enter Music mount point: [e.g. '/media/music]'"
     read PlexMusic
-    echo "PLEXMUSIC:$PlexMusic" >> ./.env
+    echo "PLEXMUSIC:$PlexMusic" >> /root/.env
     echo "Enter NFS share for TV Shows: [e.g. 'nfshost:/nfs/share']"
     read NFSTVShows
     echo "Enter TV Shows mount point: [e.g. '/media/tvshows']"
     read PlexTVShows
-    echo "PLEXTVSHOWS:$PlexTVShows" >> ./.env
+    echo "PLEXTVSHOWS:$PlexTVShows" >> /root/.env
     echo "Enter NFS share for Videos: [e.g. 'nfshost:/nfs/share']"
     read NFSVideos
     echo "Enter Videos mount point: [e.g. '/media/videos']"
     read PlexVideos
-    echo "PLEXVIDEOS:$PlexVideos" >> ./.env
+    echo "PLEXVIDEOS:$PlexVideos" >> /root/.env
     echo "$NFSMovies	$PlexMovies	nfs	defaults	0	0" >> /etc/fstab
     echo "$NFSMusic	$PlexMusic	nfs	defaults	0	0" >> /etc/fstab
     echo "$NFSTVShows	$PlexTVShows	nfs	defaults	0	0" >> /etc/fstab
@@ -67,16 +67,16 @@ fi
 if [ "$NFSStatus" == "n" ]; then
     echo "Enter the path for Movies: [e.g. '/media/movies']"
     read PlexMovies
-    echo "PLEXMOVIES:$PlexMovies" >> ./.env
+    echo "PLEXMOVIES:$PlexMovies" >> /root/.env
     echo "Enter the path for Music: [e.g. '/media/music']"
     read PlexMusic
-    echo "PLEXMUSIC:$PlexMusic" >> ./.env
+    echo "PLEXMUSIC:$PlexMusic" >> /root/.env
     echo "Enter the path for TV Shows: [e.g. '/media/tvshows']"
     read PlexTVShows
-    echo "PLEXTVSHOWS:$PlexTVShows" >> ./.env
+    echo "PLEXTVSHOWS:$PlexTVShows" >> /root/.env
     echo "Enter the path for Videos: [e.g. '/media/videos']"
     read PlexVideos
-    echo "PLEXVIDEOS:$PlexVideos" >> ./.env
+    echo "PLEXVIDEOS:$PlexVideos" >> /root/.env
 fi
 
 # Get Plex info
@@ -84,21 +84,21 @@ echo ""
 echo "Navigate to https://www.plex.tv/claim/"
 echo "Enter the Plex Claim Ticket:"
 read PlexClaim
-echo "PLEXCLAIM:$PlexClaim" >> ./.env
+echo "PLEXCLAIM:$PlexClaim" >> /root/.env
 echo "Enter the Hostname for Plex: [e.g. 'plex.example.org']"
 read PlexHostname
-echo "PLEXHOSTNAME:$PlexHostname" >> ./.env
+echo "PLEXHOSTNAME:$PlexHostname" >> /root/.env
 echo "Enter the path for Plex files: [e.g. '/media/plex']"
 read PlexLocation
-echo "PLEXLOCATION:$PlexLocation" >> ./.env
+echo "PLEXLOCATION:$PlexLocation" >> /root/.env
 
 # Services compose
 echo ""
 echo "Start docker compose"
 wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-media.yml"
 docker compose -f docker-media.yml up -d
-rm ./docker-media.yml
-rm ./.env
+rm /root/docker-media.yml
+rm /root/.env
 
 # Firewall rules
 echo ""

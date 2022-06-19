@@ -6,17 +6,26 @@ if [ "$EUID" -ne 0 ]
 fi
 
 # Docker setup
-echo "Adding Docker Repo"
-dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-echo ""
-echo "Updating DNF"
-dnf update -y
-echo ""
-echo "Installing Docker"
-dnf install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y --allowerasing
-echo ""
-echo "Enabling Docker"
-systemctl enable --now docker
+if [ -f "/usr/bin/docker" ]; then
+    echo "Adding Docker Repo"
+    dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    echo ""
+    echo "Updating DNF"
+    dnf update -y
+    echo ""
+    echo "Installing Docker"
+    dnf install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y --allowerasing
+    echo ""
+    echo "Enabling Docker"
+    systemctl enable --now docker
+fi
+
+if [ -f /root/.env ]; then
+    touch /root/.env
+else
+    rm /root/.env
+    touch /root/.env
+fi
 
 # Samba setup
 
@@ -38,27 +47,39 @@ sed -i 's/hosts:      files dns myhostname/hosts:      files mdns4_minimal dns m
 
 # Transmission setup
 echo ""
-echo "Enter the path for Transmission files:"
-read TransmissionFolder
+echo "Enter the path for Transmission files: [e.g. '/media/transmission']"
+read Folder
+echo "FOLDER:$Folder" >> /root/.env
 
 # Services compose
 echo ""
 echo "Start docker compose"
 wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-transmission.yml"
 docker compose -f docker-transmission.yml up -d
+rm /root/docker-transmission.yml
+rm /root/.env
 
 # Firewall rules
 echo ""
-echo "Enabling firewall rules"
-echo "Transmission TCP"
-firewall-cmd --permanent --add-port=51413/tcp
-echo "Transmission UDP"
-firewall-cmd --permanent --add-port=51413/udp
-echo "Transmission Combustion"
-firewall-cmd --permanent --add-port=9091/tcp
-echo "Portainer"
-firewall-cmd --permanent --add-port=8000/tcp
-echo "Portainer GUI"
-firewall-cmd --permanent --add-port=9443/tcp
-echo "Reloading firewall"
-firewall-cmd --reload
+echo "Are you using a firewall? [y/n]:"
+read FirewallStatus
+
+if [ "$FirewallStatus" == "y" ]; then
+    echo ""
+    echo "Enabling firewall rules"
+    echo "Transmission TCP"
+    firewall-cmd --permanent --add-port=51413/tcp
+    echo "Transmission UDP"
+    firewall-cmd --permanent --add-port=51413/udp
+    echo "Transmission Combustion"
+    firewall-cmd --permanent --add-port=9091/tcp
+    echo "Portainer"
+    firewall-cmd --permanent --add-port=8000/tcp
+    echo "Portainer GUI"
+    firewall-cmd --permanent --add-port=9443/tcp
+    echo "Reloading firewall"
+    firewall-cmd --reload
+fi
+
+echo ""
+echo "Done"
