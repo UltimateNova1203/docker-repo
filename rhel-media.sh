@@ -34,7 +34,7 @@ echo ""
 echo "Are you using NFS shares? [y/n]:"
 read NFSStatus
 
-if (${NFSStatus} == "y"); then
+if [ "$NFSStatus" == "y" ]; then
     echo "Installing NFS Utils"
     dnf install nfs-utils -y
     echo ""
@@ -42,41 +42,41 @@ if (${NFSStatus} == "y"); then
     read NFSMovies
     echo "Enter Movies mount point: [e.g. '/media/movies']"
     read PlexMovies
-    echo "PLEXMOVIES:${PlexMovies}" >> ./.env
+    echo "PLEXMOVIES:$PlexMovies" >> ./.env
     echo "Enter NFS share for Music: [e.g. 'nfshost:/nfs/share']"
     read NFSMusic
     echo "Enter Music mount point: [e.g. '/media/music]'"
     read PlexMusic
-    echo "PLEXMUSIC:${PlexMusic}" >> ./.env
+    echo "PLEXMUSIC:$PlexMusic" >> ./.env
     echo "Enter NFS share for TV Shows: [e.g. 'nfshost:/nfs/share']"
     read NFSTVShows
     echo "Enter TV Shows mount point: [e.g. '/media/tvshows']"
     read PlexTVShows
-    echo "PLEXTVSHOWS:${PlexTVShows}" >> ./.env
+    echo "PLEXTVSHOWS:$PlexTVShows" >> ./.env
     echo "Enter NFS share for Videos: [e.g. 'nfshost:/nfs/share']"
     read NFSVideos
     echo "Enter Videos mount point: [e.g. '/media/videos']"
     read PlexVideos
-    echo "PLEXVIDEOS:${PlexVideos}" >> ./.env
-    echo "${NFSMovies}	${PlexMovies}  nfs defaults 0 0" >> /etc/fstab
-    echo "${NFSMusic}   ${PlexMusic}   nfs defaults 0 0" >> /etc/fstab
-    echo "${NFSTVShows} ${PlexTVShows} nfs defaults 0 0" >> /etc/fstab
-    echo "${NFSVideos}  ${PlexVideos}  nfs defaults 0 0" >> /etc/fstab
+    echo "PLEXVIDEOS:$PlexVideos" >> ./.env
+    echo "$NFSMovies	$PlexMovies	nfs	defaults	0	0" >> /etc/fstab
+    echo "$NFSMusic	$PlexMusic	nfs	defaults	0	0" >> /etc/fstab
+    echo "$NFSTVShows	$PlexTVShows	nfs	defaults	0	0" >> /etc/fstab
+    echo "$NFSVideos 	$PlexVideos	nfs	defaults	0	0" >> /etc/fstab
 fi
 
-if (${NFSStatus} == "n"); then
+if [ "$NFSStatus" == "n" ]; then
     echo "Enter the path for Movies: [e.g. '/media/movies']"
     read PlexMovies
-    echo "PLEXMOVIES:${PlexMovies}" >> ./.env
+    echo "PLEXMOVIES:$PlexMovies" >> ./.env
     echo "Enter the path for Music: [e.g. '/media/music']"
     read PlexMusic
-    echo "PLEXMUSIC:${PlexMusic}" >> ./.env
+    echo "PLEXMUSIC:$PlexMusic" >> ./.env
     echo "Enter the path for TV Shows: [e.g. '/media/tvshows']"
     read PlexTVShows
-    echo "PLEXTVSHOWS:${PlexTVShows}" >> ./.env
+    echo "PLEXTVSHOWS:$PlexTVShows" >> ./.env
     echo "Enter the path for Videos: [e.g. '/media/videos']"
     read PlexVideos
-    echo "PLEXVIDEOS:${PlexVideos}" >> ./.
+    echo "PLEXVIDEOS:$PlexVideos" >> ./.
 fi
 
 # Get Plex info
