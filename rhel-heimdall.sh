@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 # Docker setup
-if [ -f "/usr/bin/docker"]; then
+if [ -f "/usr/bin/docker" ]; then
     echo "Docker is already installed"
 else
     echo "Adding Docker Repo"
@@ -22,22 +22,26 @@ else
     systemctl enable --now docker
 fi
 
-# Samba setup
+if [ -f /root/.env ]; then
+    touch /root/.env
+else
+    rm /root/.env
+    touch /root/.env
+fi
 
-# Avahi setup
+# Heimdall setup
 echo ""
-echo "Installing Avahi"
-dnf install avahi-daemon -y
-wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/avahi/samba.service" -o /etc/avahi/services/samba.service
-sed -i 's/foo/Storage/g' /etc/avahi/services/samba.service
-sed -i 's/#host-name=foo/host-name=storage/g' /etc/avahi/avahi-daemon.conf
-sed -i 's/#domain-name=local/domain-name=local/g' /etc/avahi/avahi-daemon.conf
-sed -i 's/use-ipv6=yes/use-ipv6=no/g' /etc/avahi/avahi-daemon.conf
+echo "Enter the path for Heimdall files: [e.g. '/media/heimdall']"
+read Folder
+echo "FOLDER:$Folder" >> /root/.env
 
-# NSS setup
+# Services compose
 echo ""
-echo "Configuring NSS"
-sed -i 's/hosts:      files dns myhostname/hosts:      files mdns4_minimal dns myhostname/g' /etc/nsswitch.conf
+echo "Start docker compose"
+wget -P /root "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-heimdall.yml"
+docker compose -f /root/docker-heimdall.yml up -d
+rm /root/docker-heimdall.yml
+rm /root/.env
 
 # Firewall rules
 echo ""
@@ -45,11 +49,12 @@ echo "Are you using a firewall? [y/n]:"
 read FirewallStatus
 
 if [ "$FirewallStatus" == "y" ]; then
+    echo ""
     echo "Enabling firewall rules"
-    echo "Samba"
-    firewall-cmd --permanent --add-port=445/tcp
-    echo "Avahi"
-    firewall-cmd --permanent --add-port=5353/udp
+    echo "Heimdall HTTP"
+    firewall-cmd --permanent --add-port=80/tcp
+    echo "Heimdall HTTPS"
+    firewall-cmd --permanent --add-port=443/tcp
     echo "Portainer"
     firewall-cmd --permanent --add-port=8000/tcp
     echo "Portainer GUI"

@@ -91,12 +91,15 @@ echo "PLEXHOSTNAME:$PlexHostname" >> /root/.env
 echo "Enter the path for Plex files: [e.g. '/media/plex']"
 read PlexLocation
 echo "PLEXLOCATION:$PlexLocation" >> /root/.env
+echo "Enter your timezone: [e.g. 'America/New_York']"
+read TimeZone
+echo "TIMEZONE:$TimeZone" >> /root/.env
 
 # Services compose
 echo ""
 echo "Start docker compose"
-wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-media.yml"
-docker compose -f docker-media.yml up -d
+wget -P /root "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-media.yml"
+docker compose -f /root/docker-media.yml up -d
 rm /root/docker-media.yml
 rm /root/.env
 

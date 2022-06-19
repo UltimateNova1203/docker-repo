@@ -52,12 +52,18 @@ echo ""
 echo "Enter the path for Transmission files: [e.g. '/media/transmission']"
 read Folder
 echo "FOLDER:$Folder" >> /root/.env
+echo "Enter allow list IPs: [e.g. 192.168.100.0/24]"
+read AllowList
+echo "ALLOWLIST:$AllowList" >> /root/.env
+echo "Enter your timezone: [e.g. 'America/New_York']"
+read TimeZone
+echo "TIMEZONE:$TimeZone" >> /root/.env
 
 # Services compose
 echo ""
 echo "Start docker compose"
-wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-transmission.yml"
-docker compose -f docker-transmission.yml up -d
+wget -P /root "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-transmission.yml"
+docker compose -f /root/docker-transmission.yml up -d
 rm /root/docker-transmission.yml
 rm /root/.env
 

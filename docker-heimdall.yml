@@ -1,23 +1,18 @@
 version: '3.7'
 
 services:
-  plex:
-    container_name: plex
-    image: plexinc/pms-docker:latest
-    network_mode: host
+  heimdall:
+    container_name: heimdall
+    image: lscr.io/linuxserver/heimdall:latest
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=${TIMEZONE}
-      - PLEX_CLAIM=${PLEXCLAIM}
-      - HOSTNAME=${PLEXHOSTNAME}
     volumes:
-      - ${PLEXLOCATION}/config:/config
-      - ${PLEXLOCATION}/transcode:/transcode
-      - ${PLEXMOVIES}:/media/movies
-      - ${PLEXMUSIC}:/media/music
-      - ${PLEXTVSHOWS}:/media/tvshows
-      - ${PLEXVIDEOS}:/media/videos
+      - ${FOLDER}:/config
+    ports:
+      - 80:80
+      - 443:443
     restart: unless-stopped
 
   portainer:
