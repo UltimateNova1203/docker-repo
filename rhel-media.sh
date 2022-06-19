@@ -22,6 +22,13 @@ else
     systemctl enable --now docker
 fi
 
+if [ -f ./.env ]; then
+    touch ./.env
+else
+    rm ./.env
+    touch ./.env
+fi
+
 # NFS Setup
 echo ""
 echo "Are you using NFS shares? [y/n]:"
@@ -31,22 +38,26 @@ if (${NFSStatus} == "y"); then
     echo "Installing NFS Utils"
     dnf install nfs-utils -y
     echo ""
-    echo "Enter NFS share for Movies:"
+    echo "Enter NFS share for Movies: [e.g. 'nfshost:/nfs/share']"
     read NFSMovies
-    echo "Enter Movies mount point:"
+    echo "Enter Movies mount point: [e.g. '/media/movies']"
     read PlexMovies
-    echo "Enter NFS share for Music:"
+    echo "PLEXMOVIES:${PlexMovies}" >> ./.env
+    echo "Enter NFS share for Music: [e.g. 'nfshost:/nfs/share']"
     read NFSMusic
-    echo "Enter Music mount point:"
+    echo "Enter Music mount point: [e.g. '/media/music]'"
     read PlexMusic
-    echo "Enter NFS share for TV Shows:"
+    echo "PLEXMUSIC:${PlexMusic}" >> ./.env
+    echo "Enter NFS share for TV Shows: [e.g. 'nfshost:/nfs/share']"
     read NFSTVShows
-    echo "Enter TV Shows mount point:"
+    echo "Enter TV Shows mount point: [e.g. '/media/tvshows']"
     read PlexTVShows
-    echo "Enter NFS share for Videos:"
+    echo "PLEXTVSHOWS:${PlexTVShows}" >> ./.env
+    echo "Enter NFS share for Videos: [e.g. 'nfshost:/nfs/share']"
     read NFSVideos
-    echo "Enter Videos mount point:"
+    echo "Enter Videos mount point: [e.g. '/media/videos']"
     read PlexVideos
+    echo "PLEXVIDEOS:${PlexVideos}" >> ./.env
     echo "${NFSMovies}	${PlexMovies}  nfs defaults 0 0" >> /etc/fstab
     echo "${NFSMusic}   ${PlexMusic}   nfs defaults 0 0" >> /etc/fstab
     echo "${NFSTVShows} ${PlexTVShows} nfs defaults 0 0" >> /etc/fstab
@@ -54,14 +65,18 @@ if (${NFSStatus} == "y"); then
 fi
 
 if (${NFSStatus} == "n"); then
-    echo "Enter the path for Movies:"
+    echo "Enter the path for Movies: [e.g. '/media/movies']"
     read PlexMovies
-    echo "Enter the path for Music:"
+    echo "PLEXMOVIES:${PlexMovies}" >> ./.env
+    echo "Enter the path for Music: [e.g. '/media/music']"
     read PlexMusic
-    echo "Enter the path for TV Shows:"
+    echo "PLEXMUSIC:${PlexMusic}" >> ./.env
+    echo "Enter the path for TV Shows: [e.g. '/media/tvshows']"
     read PlexTVShows
-    echo "Enter the path for Videos:"
+    echo "PLEXTVSHOWS:${PlexTVShows}" >> ./.env
+    echo "Enter the path for Videos: [e.g. '/media/videos']"
     read PlexVideos
+    echo "PLEXVIDEOS:${PlexVideos}" >> ./.
 fi
 
 # Get Plex info
@@ -69,10 +84,13 @@ echo ""
 echo "Navigate to https://www.plex.tv/claim/"
 echo "Enter the Plex Claim Ticket:"
 read PlexClaim
-echo "Enter the Hostname for Plex:"
+echo "PLEXCLAIM:${PlexClaim}" >> ./.env
+echo "Enter the Hostname for Plex: [e.g. 'plex.example.org']"
 read PlexHostname
-echo "Enter the path for Plex files:"
+echo "PLEXHOSTNAME:${PlexHostname}" >> ./.env
+echo "Enter the path for Plex files: [e.g. '/media/plex']"
 read PlexLocation
+echo "PLEXLOCATION:${PlexLocation}" >> ./.env
 
 # Services compose
 echo ""
