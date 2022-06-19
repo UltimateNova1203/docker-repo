@@ -27,12 +27,7 @@ echo ""
 echo "Are you using NFS shares? [y/n]:"
 read NFSStatus
 
-while [${NFSStatus} != "y"] && [${NFSStatus} != "n"]; do
-    echo "Are you using NFS shares? [y/n]:"
-    read NFSStatus
-done
-
-if (${NFSStatus} == "y")
+if (${NFSStatus} == "y"); then
     echo "Installing NFS Utils"
     dnf install nfs-utils -y
     echo ""
@@ -58,7 +53,7 @@ if (${NFSStatus} == "y")
     echo "${NFSVideos}  ${PlexVideos}  nfs defaults 0 0" >> /etc/fstab
 fi
 
-if (${NFSStatus} == "n")
+if (${NFSStatus} == "n"); then
     echo "Enter the path for Movies:"
     read PlexMovies
     echo "Enter the path for Music:"
