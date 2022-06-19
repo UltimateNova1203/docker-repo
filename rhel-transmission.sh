@@ -7,6 +7,8 @@ fi
 
 # Docker setup
 if [ -f "/usr/bin/docker" ]; then
+    echo "Docker is already installed"
+else
     echo "Adding Docker Repo"
     dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     echo ""
