@@ -84,46 +84,57 @@ echo ""
 echo "Navigate to https://www.plex.tv/claim/"
 echo "Enter the Plex Claim Ticket:"
 read PlexClaim
-echo "PLEXCLAIM:${PlexClaim}" >> ./.env
+echo "PLEXCLAIM:$PlexClaim" >> ./.env
 echo "Enter the Hostname for Plex: [e.g. 'plex.example.org']"
 read PlexHostname
-echo "PLEXHOSTNAME:${PlexHostname}" >> ./.env
+echo "PLEXHOSTNAME:$PlexHostname" >> ./.env
 echo "Enter the path for Plex files: [e.g. '/media/plex']"
 read PlexLocation
-echo "PLEXLOCATION:${PlexLocation}" >> ./.env
+echo "PLEXLOCATION:$PlexLocation" >> ./.env
 
 # Services compose
 echo ""
 echo "Start docker compose"
 wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-media.yml"
 docker compose -f docker-media.yml up -d
+rm ./docker-media.yml
+rm ./.env
 
 # Firewall rules
 echo ""
-echo "Enabling firewall rules"
-echo "Plex GUI"
-firewall-cmd --permanent --add-port=32400/tcp
-echo "Plex Companion for Home Theater"
-firewall-cmd --permanent --add-port=3005/tcp
-echo "Plex Companion for Roku"
-firewall-cmd --permanent --add-port=8324/tcp
-echo "Plex DLNA Server"
-firewall-cmd --permanent --add-port=32469/tcp
-echo "Plex UPnP"
-firewall-cmd --permanent --add-port=1900/udp
-echo "Plex GDM Discovery 0"
-firewall-cmd --permanent --add-port=32410/udp
-echo "Plex GDM Discovery 1"
-firewall-cmd --permanent --add-port=32411/udp
-echo "Plex GDM Discovery 2"
-firewall-cmd --permanent --add-port=32412/udp
-echo "Plex GDM Discovery 3"
-firewall-cmd --permanent --add-port=32413/udp
-echo "Plex GDM Discovery 4"
-firewall-cmd --permanent --add-port=32414/udp
-echo "Portainer"
-firewall-cmd --permanent --add-port=8000/tcp
-echo "Portainer GUI"
-firewall-cmd --permanent --add-port=9443/tcp
-echo "Reloading firewall"
-firewall-cmd --reload
+echo "Are you using a firewall? [y/n]:"
+read FirewallStatus
+
+if [ "$FirewallStatus" == "y" ]; then
+    echo ""
+    echo "Enabling firewall rules"
+    echo "Plex GUI"
+    firewall-cmd --permanent --add-port=32400/tcp
+    echo "Plex Companion for Home Theater"
+    firewall-cmd --permanent --add-port=3005/tcp
+    echo "Plex Companion for Roku"
+    firewall-cmd --permanent --add-port=8324/tcp
+    echo "Plex DLNA Server"
+    firewall-cmd --permanent --add-port=32469/tcp
+    echo "Plex UPnP"
+    firewall-cmd --permanent --add-port=1900/udp
+    echo "Plex GDM Discovery 0"
+    firewall-cmd --permanent --add-port=32410/udp
+    echo "Plex GDM Discovery 1"
+    firewall-cmd --permanent --add-port=32411/udp
+    echo "Plex GDM Discovery 2"
+    firewall-cmd --permanent --add-port=32412/udp
+    echo "Plex GDM Discovery 3"
+    firewall-cmd --permanent --add-port=32413/udp
+    echo "Plex GDM Discovery 4"
+    firewall-cmd --permanent --add-port=32414/udp
+    echo "Portainer"
+    firewall-cmd --permanent --add-port=8000/tcp
+    echo "Portainer GUI"
+    firewall-cmd --permanent --add-port=9443/tcp
+    echo "Reloading firewall"
+    firewall-cmd --reload
+fi
+
+echo ""
+echo "Done"
