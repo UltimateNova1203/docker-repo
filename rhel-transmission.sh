@@ -62,7 +62,7 @@ echo "TIMEZONE:$TimeZone" >> /root/.env
 # Services compose
 echo ""
 echo "Start docker compose"
-wget -P /root "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-transmission.yml"
+wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-transmission.yml" -o /root/docker-transmission.yml
 docker compose -f /root/docker-transmission.yml up -d
 rm /root/docker-transmission.yml
 rm /root/.env

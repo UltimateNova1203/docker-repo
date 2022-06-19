@@ -98,7 +98,7 @@ echo "TIMEZONE:$TimeZone" >> /root/.env
 # Services compose
 echo ""
 echo "Start docker compose"
-wget -P /root "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-media.yml"
+wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-media.yml" -o /root/docker-media.yml
 docker compose -f /root/docker-media.yml up -d
 rm /root/docker-media.yml
 rm /root/.env

@@ -38,7 +38,7 @@ echo "FOLDER:$Folder" >> /root/.env
 # Services compose
 echo ""
 echo "Start docker compose"
-wget -P /root "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-heimdall.yml"
+wget "https://raw.githubusercontent.com/UltimateNova1203/docker-repo/main/docker-heimdall.yml" -o /root/docker-heimdall.yml
 docker compose -f /root/docker-heimdall.yml up -d
 rm /root/docker-heimdall.yml
 rm /root/.env
